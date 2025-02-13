@@ -1,23 +1,25 @@
 document.addEventListener("DOMContentLoaded", () => {
     // 🪲 Bug: Incorrect ID used for attaching the event listener
-    document.getElementById("solveRoom").addEventListener("click", () => {
+    document.getElementById("solveRoom1").addEventListener("click", () => { //solveRoom - Solveroom1
         fetch('books.json') 
             .then(response => response.json())
             .then(books => {
                 const mostRecentBook = findMostRecentBook(books);
-                // 🪲 Bug: Incorrect element ID
-                document.getElementById("resultRoom1").textContent = `The key to the next room is: ${mostRecentBook.title}`;
+                // 🪲 Bug: Incorrect element ID,  roomResult1 --  room1Result
+                document.getElementById("room1Result").textContent = `The key to the next room is: ${mostRecentBook.title}`;
+        
             });
     });
 
     document.getElementById("solveRoom2").addEventListener("click", () => {
-        const jsConcepts = new Set(['closure', 'scope', 'hoisting']);
+        const jsConcepts = new Set(['closure', 'scope', 'hoisting', 'promises', 'event loop', 'callback','destructuring','classes', 'spread operator']); //added JS concepts
         // 🪲 Bug: What's mssing from JS concepts?
-        const reactConcepts = new Set(['components', 'jsx', 'hooks', 'async']);
+        const reactConcepts = new Set(['components', 'jsx', 'hooks', 'async', 'state management', 'props','useEffect','context API','react router']); //added react concepts
         // 🪲 Bug: Incorrect function call
-        const commonConcepts = findIntersection(jsConcepts, jsConcepts);
-        document.getElementById("room2Result").textContent = `The code to unlock the door is: ${Array.from(commonConcepts).join(', ')}`;
-    });
+        const commonConcepts = findIntersection(jsConcepts, reactConcepts); //jsConcepts was used twice
+        document.getElementById('roomResult3').textContent = `The code to unlock the door is: ${Array.from(commonConcepts).join(', ')}`;
+        console.log (commonConcepts)
+    });  
 
     // 🪲 Bug: Asynchronous function ?
     document.getElementById("solveRoom3").addEventListener("click", () => {
@@ -31,25 +33,25 @@ document.addEventListener("DOMContentLoaded", () => {
                     });
             });
     });
-});
+
 
 function findMostRecentBook(books) {
     // 🪲 Bug: Logic error
-    return books.reduce((mostRecent, book) => new Date(book.published) < new Date(mostRecent.published) ? book : mostRecent);
+    return books.reduce((mostRecent, book) => new Date(book.published) > new Date(mostRecent.published) ? book : mostRecent); // replaced < with > , otherwise oldest book is returned
 }
 
 function findIntersection(setA, setB) {
     // 🪲 Bug: Incorrect logic
-    const intersection = new Set([...setA]);
+    const intersection = new Set([...setA].filter (item => setB.has(item)))  // Filter items that are present in both sets, originally only filtered setA]
     return intersection;
 }
 
 async function navigateLabyrinth(directions) {
     for (let direction of directions) {
         // 🪲 Bug: No delay
-        new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise(resolve => setTimeout(resolve, 1000)); //added await function to add delay.
         console.log(`Navigating: ${direction.step}`);
     }
     return "Congratulations! You've mastered the essentials of Vanilla JavaScript. Welcome to the world of React, where you'll build powerful and dynamic web applications. Let's dive in!";
 }
-
+});
