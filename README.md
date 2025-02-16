@@ -43,4 +43,3 @@ The Escape Vanilla JS Challenge is an interactive web-based project focusing on 
 
 
 
-
